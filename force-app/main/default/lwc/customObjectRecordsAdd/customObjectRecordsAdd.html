@@ -1,0 +1,69 @@
+<template>
+  <div>
+    <template lwc:if={showTable1}>
+      <div style="background: white; padding-bottom: 3%">
+      <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+          <tr>
+            <th>Checkbox</th>
+            <th>Object Names</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template for:each={objectList} for:item="object">
+            <tr key={object.id}>
+              <td>
+                <lightning-input type="checkbox" checked={isChecked} data-name={object} onchange={handleCheckboxChange}
+                  disabled={isCheckboxDisabled}></lightning-input>
+              </td>
+              <td>{object}</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+      <div>
+        <lightning-button variant="brand" label="Select" onclick={handleSelect}></lightning-button>
+      </div>
+    </div>
+    </template>
+
+    <template lwc:if={showTable2}>
+      <div>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+          <thead>
+            <tr>
+              <th>Checkbox</th>
+              <th>OwnerId</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template for:each={recordData} for:item="record" for:index="index">
+              <tr key={record.id}>
+                <td><lightning-input type="checkbox" data-id={record.OwnerId} data-key={index} onchange={handleDeleteCheckbox}
+                    data-index={index} checked={isChecked}></lightning-input></td>
+                <td>{record.OwnerId}</td>
+                <td>{record.Name}</td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+
+        <lightning-button variant="brand" label="Delete Selected" onclick={handleDeleteSelected}></lightning-button>
+        <lightning-button 
+          variant="brand"
+          label="Add Records" 
+          onclick={addRecordsButton} 
+        ></lightning-button>
+        
+        <div lwc:if={showModal}>
+          <lightning-record-form object-api-name={selectedObjectList} record-id={selectedId}
+            fields={fields} onsuccess={handleRecordCreateSuccess}></lightning-record-form>
+        </div>
+      </div>
+    </template>
+
+  </div>
+
+
+</template>
