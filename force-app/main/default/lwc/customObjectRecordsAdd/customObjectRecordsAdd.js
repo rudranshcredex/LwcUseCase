@@ -2,6 +2,7 @@ import { LightningElement, track, wire, api } from 'lwc';
 import sObjectList from '@salesforce/apex/GetSObjectList.getObjects';
 import GetCustomRecord from '@salesforce/apex/GetCustomRecords.getRecords';
 import { refreshApex } from '@salesforce/apex';
+import CredexLogo from "@salesforce/resourceUrl/CredexLogo";
 
 export default class CustomObjectRecordsAdd extends LightningElement {
     @track objectList;
@@ -21,7 +22,8 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     index;
     showTable2 = false;
     showModal = false;
-    showTabele1 = true;
+    showTable1 = true;
+    logo = CredexLogo;
 
     connectedCallback() {
         sObjectList()
@@ -32,15 +34,6 @@ export default class CustomObjectRecordsAdd extends LightningElement {
                 this.error = error;
             });
     }
-    // handleCheckboxChange(event) { 
-    //     if (event.target.checked) {
-    //         const objectName = event.target.dataset.name;  this.selectedObject = objectName;
-    //         const checkboxId = event.target.dataset.id;
-
-           
-    //         console.log('this.selectedObject', this.selectedObject);
-    //     }
-    // }
 
     handleCheckboxChange(event) {
     const objectName = event.target.dataset.name;
@@ -64,6 +57,7 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     handleSelect() {
         this.selectedObjectList = this.selectedObject;
         this.showTable2 = true;
+        this.showTable1 = false;
     }
 
     isCheckboxChecked(object) {
@@ -114,27 +108,30 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     }
 
     handleDeleteSelected() {
-        if (this.selectedRecordIds.length > 0 && this.records.length>1) {
-            const recordsCopy = [...this.records];
-            this.selectedRecordIds.forEach((selectedId) => {
-                const index = recordsCopy.findIndex((record) => record.OwnerId === selectedId);
-                if (index !== -1) {
-                    recordsCopy.splice(index, 1);
-                }
-            });
-            this.records = recordsCopy;
-            this.selectedRecordIds = [];
-        }
+      
+            if (this.selectedRecordIds.length > 0 && this.selectedRecordIds.length!= this.records.length) {
+                const recordsCopy = this.records;
+                this.selectedRecordIds.forEach((selectedId) => {
+                    const index = recordsCopy.findIndex((record) => record.OwnerId === selectedId);
+                    if (index !== -1) {
+                        recordsCopy.splice(index, 1);
+                    }
+                });
+                this.records = recordsCopy;
+                //this.selectedRecordIds = [];
+            }
+        
         else {
             alert('Minimum One Records should be present');
         }
     }
+
     addRecordsButton() {
         this.showModal = true;
     }
 
    handleRecordCreateSuccess() {
-    refreshApex(this.wiredRecordList);
+       refreshApex(this.wiredRecordList);
 }
 
 
