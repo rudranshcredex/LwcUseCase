@@ -17,7 +17,7 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     @track isChecked = false;
 
 
-
+    objectNameSentToHtml;
     selectedId;
     index;
     showTable2 = false;
@@ -36,7 +36,7 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     }
 
     handleCheckboxChange(event) {
-    const objectName = event.target.dataset.name;
+        const objectName = event.target.dataset.name;
 
     if (event.target.checked) {
         if (this.selectedObject !== objectName) {
@@ -47,10 +47,9 @@ export default class CustomObjectRecordsAdd extends LightningElement {
             }
         }
         this.selectedObject = objectName;
+        this.objectNameSentToHtml = objectName;
         this.selectedId = event.target.dataset.id;
-    } else {
-        this.selectedObject = null;
-        this.selectedId = null;
+        console.log('this.selectedObject', this.selectedObject);
     }
 }
 
@@ -60,9 +59,9 @@ export default class CustomObjectRecordsAdd extends LightningElement {
         this.showTable1 = false;
     }
 
-    isCheckboxChecked(object) {
-        return object === this.selectedObject;
-    }
+    // isCheckboxChecked(object) {
+    //     return object === this.selectedObject;
+    // }
     
 
     @wire(GetCustomRecord, { selectedObjectList: '$selectedObjectList' }) list(result) {
@@ -108,8 +107,7 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     }
 
     handleDeleteSelected() {
-      
-            if (this.selectedRecordIds.length > 0 && this.selectedRecordIds.length!= this.records.length) {
+            if (this.selectedRecordIds.length > 0 && this.selectedRecordIds.length!= this.records.length && this.records.length >1) {
                 const recordsCopy = this.records;
                 this.selectedRecordIds.forEach((selectedId) => {
                     const index = recordsCopy.findIndex((record) => record.OwnerId === selectedId);
@@ -119,6 +117,7 @@ export default class CustomObjectRecordsAdd extends LightningElement {
                 });
                 this.records = recordsCopy;
                 //this.selectedRecordIds = [];
+                console.log('this.selectedObject', this.selectedObject);
             }
         
         else {
