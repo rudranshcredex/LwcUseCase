@@ -1,0 +1,46 @@
+<template>
+
+    <div style="background: wheat">
+        <div>
+            <h1>Constructor</h1>
+            <p>{textVariable}</p>
+        </div>
+
+        <div>
+            <h1>ConnectedCallback</h1>
+            <div class="abc">
+                <h1>Connected callback color</h1>
+                <div>
+                    <div>
+                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead>
+                                <tr>
+                                    <th>Checkbox</th>
+                                    <th>Object Names</th>
+                                </tr>
+                            </thead>
+                            <template lwc:if={isSpinner}>
+                                <div class="spinner">
+                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                </div>
+                            </template>
+                            <tbody>
+                                <template for:each={objectList} for:item="object">
+                                    <tr key={object.id}>
+                                        <td>
+                                            <lightning-input type="checkbox" checked={isChecked} data-name={object}
+                                                onchange={handleCheckboxChange}
+                                                disabled={isCheckboxDisabled}></lightning-input>
+                                        </td>
+                                        <td>{object}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>

@@ -15,9 +15,8 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     @track filteredFields = [];
     @track wiredRecordList = [];
     @track isChecked = false;
+    @track isSpinner = false;
 
-
-    objectNameSentToHtml;
     selectedId;
     index;
     showTable2 = false;
@@ -25,14 +24,30 @@ export default class CustomObjectRecordsAdd extends LightningElement {
     showTable1 = true;
     logo = CredexLogo;
 
+    // connectedCallback() {
+    //     sObjectList()
+    //         .then(result => {
+    //             this.objectList = result;
+    //         })
+    //         .catch(error => {
+    //             this.error = error;
+    //         });
+    // }
+    @wire(sObjectList) fetchList(result) {
+        this.isSpinner = false;
+        console.log('result.data', result.data);
+        if (result.data) {
+            this.objectList = result.data;
+        }
+        else if (result.error) {
+            this.error = result.error;
+            console.log('error', this.error);
+        }
+    }
+
     connectedCallback() {
-        sObjectList()
-            .then(result => {
-                this.objectList = result;
-            })
-            .catch(error => {
-                this.error = error;
-            });
+        console.log('inside connectedcallback');
+        this.isSpinner = true;
     }
 
     handleCheckboxChange(event) {
@@ -58,11 +73,6 @@ export default class CustomObjectRecordsAdd extends LightningElement {
         this.showTable2 = true;
         this.showTable1 = false;
     }
-
-    // isCheckboxChecked(object) {
-    //     return object === this.selectedObject;
-    // }
-    
 
     @wire(GetCustomRecord, { selectedObjectList: '$selectedObjectList' }) list(result) {
         this.wiredRecordList = result;
@@ -133,5 +143,6 @@ export default class CustomObjectRecordsAdd extends LightningElement {
        refreshApex(this.wiredRecordList);
 }
 
+    
 
 }
