@@ -8,39 +8,56 @@
 
         <div>
             <h1>ConnectedCallback</h1>
-            <div class="abc">
-                <h1>Connected callback color</h1>
-                <div>
-                    <div>
-                        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
-                            <thead>
-                                <tr>
-                                    <th>Checkbox</th>
-                                    <th>Object Names</th>
-                                </tr>
-                            </thead>
-                            <template lwc:if={isSpinner}>
-                                <div class="spinner">
-                                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
-                                </div>
-                            </template>
-                            <tbody>
-                                <template for:each={objectList} for:item="object">
-                                    <tr key={object.id}>
-                                        <td>
-                                            <lightning-input type="checkbox" checked={isChecked} data-name={object}
-                                                onchange={handleCheckboxChange}
-                                                disabled={isCheckboxDisabled}></lightning-input>
-                                        </td>
-                                        <td>{object}</td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
+            <div>
+                <div>
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr>
+                                <th>Checkbox</th>
+                                <th>Object Names</th>
+                            </tr>
+                        </thead>
+                        <template lwc:if={isSpinner}>
+                            <div class="spinner">
+                                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            </div>
+                        </template>
+                        <tbody>
+                            <template for:each={objectList} for:item="object">
+                                <tr key={object.id}>
+                                    <td>
+                                        <lightning-input type="checkbox" checked={isChecked} data-name={object}
+                                            onchange={handleCheckboxChange}
+                                            disabled={isCheckboxDisabled}></lightning-input>
+                                    </td>
+                                    <td>{object}</td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
+        <div>
+            <h1>Rendered callback</h1>
+            <button class="btn">
+                click
+            </button>
+            <p>button clicked {count}</p>
+        </div>
+
+        <p>error callback</p>
+        <c-child></c-child>
+
+        <div>
+            <p>disconnected Callback</p>
+            <template lwc:if={showChild}>
+                <c-child></c-child>
+            </template>
+            <button onclick={handleClick}>press</button>
+        </div>
     </div>
+
 </template>
