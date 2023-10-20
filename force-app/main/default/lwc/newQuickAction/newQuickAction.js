@@ -1,6 +1,8 @@
 import { LightningElement, api } from 'lwc';
 import { getRecord, updateRecord } from 'lightning/uiRecordApi';
 import updateDurationField from '@salesforce/apex/updateFieldDuration.updateDurationField';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+
 
 
 export default class NewQuickAction extends LightningElement {
@@ -24,10 +26,9 @@ export default class NewQuickAction extends LightningElement {
         updateDurationField({ accountId: this.recordId, openTime: this.openTime })
             .then(result => {
                 console.log('updated', result);
-                
             })
             .catch(error => {
                 console.error('Error---->', error);
             });
-    }   
+    }
 }
